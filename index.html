@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="listaTelefonica">
+<head>
+	<meta charset="UTF-8">
+	<title>Lista Telefonica</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		.container {
+			width: 500px;
+		}
+		.form-control {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body ng-controller="listaTelefonicaController">
+
+	<div class="container">
+		
+		<div class="jumbotron">
+			
+			<h4>{{app}}</h4>
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Telefone</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="contato in contatos">
+						<td>{{contato.nome}}</td>
+						<td>{{contato.telefone}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<input type="text" class="form-control" ng-model="contato.nome">
+			<input type="text" class="form-control" ng-model="contato.telefone">
+			<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar Contato</button>
+
+			{{contato}}
+
+		</div>
+
+
+
+	</div>
+
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+	<script>
+		
+		angular
+			.module('listaTelefonica', []);
+
+		angular
+			.module('listaTelefonica')
+			.controller('listaTelefonicaController', function($scope){
+
+				$scope.app = "Lista Telefonica";
+
+				$scope.contatos = [
+					{nome: "Paulo", telefone: "99988888"},
+					{nome: "Gisely", telefone: "888889999"},
+					{nome: "Pedro", telefone: "7777778888"}
+				];
+
+				$scope.adicionarContato = function(contato) {
+					$scope.contatos.push(angular.copy(contato))
+					delete $scope.contato;
+				}	
+
+			})	
+
+	</script>
+</body>
+</html>
