@@ -45,16 +45,23 @@
 					</tr>
 				</tbody>
 			</table>
+			
+			<form name="contatoForm">	
 
-			<input type="text" class="form-control" ng-model="contato.nome">
-			<input type="text" class="form-control" ng-model="contato.telefone">
-			<select name="" id="" class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
-				<option value="">Selecione operadora...</option>
-			</select>
-			<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
-			<button class="btn btn-danger btn-block" ng-click="apagarContato(contatos)" ng-if="isContatoSelecionado(contatos)">Deletar Contato</button>
+				<input type="text" class="form-control" ng-model="contato.nome" ng-required="true">
+				<input type="text" class="form-control" ng-model="contato.telefone" ng-required="true">
+				<select name="" id="" class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
+					<option value="">Selecione operadora...</option>
+				</select>
 
-			{{contato}}
+				<div class="alert alert-danger">
+					Preencha o nome e telefone
+				</div>
+
+				<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
+				<button class="btn btn-danger btn-block" ng-click="apagarContato(contatos)" ng-if="isContatoSelecionado(contatos)">Deletar Contato</button>
+
+			</form>
 
 
 		</div>
