@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<style>
 		.container {
-			width: 500px;
+			width: 600px;
 			margin-top: 100px;
 		}
 		.form-control {
@@ -26,20 +26,24 @@
 		<div class="jumbotron">
 			
 			<h4>{{app}}</h4>
+			
+			<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que deseja pesquisar...">
 
 			<table class="table table-striped" ng-if="contatos.length">
 				<thead>
 					<tr>
 						<th></th>
-						<th>Nome</th>
+						<th><a href="" ng-click="ordernarPor('nome')">Nome</a></th>
+						<th>Data</th>
 						<th>Telefone</th>
 						<th>Operadora</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+					<tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos | filter:{nome: criterioDeBusca} | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
 						<td><input type="checkbox" ng-model="contato.selecionado"></td>
-						<td>{{contato.nome}}</td>
+						<td>{{contato.nome | uppercase }}</td>
+						<td>{{contato.data | date:'dd/MM/yyyy HH:mm'}}</td>
 						<td>{{contato.telefone}}</td>
 						<td>{{contato.operadora.nome}}</td>
 					</tr>
@@ -48,14 +52,35 @@
 			
 			<form name="contatoForm">	
 
-				<input type="text" class="form-control" ng-model="contato.nome" ng-required="true">
-				<input type="text" class="form-control" ng-model="contato.telefone" ng-required="true">
-				<select name="" id="" class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
+				<input type="text" class="form-control" ng-model="contato.nome" name="nome" ng-required="true" ng-minlength="10" placeholder="Nome e Sobrenome">
+				<input type="text" class="form-control" ng-model="contato.telefone" name="telefone" ng-required="true" placeholder="Telefone" ng-pattern="/^\d{4,5}-\d{4}$/">
+				<select name="" id="" class="form-control" ng-model="contato.operadora" name="oper" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" >
 					<option value="">Selecione operadora...</option>
 				</select>
 
-				<div class="alert alert-danger">
-					Preencha o nome e telefone
+					
+				<div ng-messages="contatoForm.nome.$error" ng-show="contatoForm.nome.$dirty">
+					
+					<div ng-message="required" class="alert alert-danger">
+						Preencha o nome e sobrenome
+					</div>
+
+					<div ng-message="minlength" class="alert alert-danger">
+						Valor minimo de carecteres são 10
+					</div>
+
+				</div>
+
+
+
+				
+
+				<div ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty" class="alert alert-danger">
+					Preencha o telefone
+				</div>
+
+				<div ng-show="contatoForm.telefone.$error.pattern" class="alert alert-danger">
+					Preencha o telefone formato certo
 				</div>
 
 				<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
@@ -72,21 +97,22 @@
 
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.3/angular-messages.min.js"></script>
 	<script>
 		
 		angular
-			.module('listaTelefonica', []);
+			.module('listaTelefonica', ['ngMessages']);
 
 		angular
 			.module('listaTelefonica')
-			.controller('listaTelefonicaController', function($scope){
+			.controller('listaTelefonicaController', function($scope, $filter){
 
 				$scope.app = "Lista Telefonica";
 
 				$scope.contatos = [
-					{nome: "Paulo", telefone: "99988888"},
-					{nome: "Gisely", telefone: "888889999"},
-					{nome: "Pedro", telefone: "7777778888"}
+					{nome: "Paulo", telefone: "99988888", data: new Date()},
+					{nome: "Gisely", telefone: "888889999", data: new Date()},
+					{nome: "Pedro", telefone: "7777778888", data: new Date()}
 				];
 
 				$scope.operadoras = [
@@ -102,6 +128,8 @@
 				$scope.adicionarContato = function(contato) {
 					$scope.contatos.push(angular.copy(contato))
 					delete $scope.contato;
+
+					$scope.contatoForm.$setPristine();
 				}
 
 				$scope.apagarContato = function(contatos) {
@@ -116,6 +144,11 @@
 						return contato.selecionado
 					})
 
+				}
+
+				$scope.ordernarPor = function(campo) {
+					$scope.criterioDeOrdenacao = campo;
+					$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
 				}	
 
 			})	
