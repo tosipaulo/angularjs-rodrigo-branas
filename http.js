@@ -26,3 +26,7 @@ app.get('/contatos', function(req, res){
 	res.end();
 })
 
+app.post('/contatos', function(req, res){
+	res.end();
+})
+

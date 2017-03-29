@@ -28,7 +28,9 @@
 			<h4>{{app}}</h4>
 			
 			<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que deseja pesquisar...">
-
+			
+			<hr>
+			{{message}}
 			<table class="table table-striped" ng-if="contatos.length">
 				<thead>
 					<tr>
@@ -43,7 +45,7 @@
 					<tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos | filter:{nome: criterioDeBusca} | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
 						<td><input type="checkbox" ng-model="contato.selecionado"></td>
 						<td>{{contato.nome | uppercase }}</td>
-						<td>{{contato.data | date:'dd/MM/yyyy HH:mm'}}</td>
+						<td>{{contato.data | date:'dd/MM/yyyy'}}</td>
 						<td>{{contato.telefone}}</td>
 						<td>{{contato.operadora.nome}}</td>
 					</tr>
@@ -105,25 +107,29 @@
 
 		angular
 			.module('listaTelefonica')
-			.controller('listaTelefonicaController', function($scope, $filter){
+			.controller('listaTelefonicaController', function($scope, $filter, $http){
 
 				$scope.app = "Lista Telefonica";
 
-				$scope.contatos = [
-					{nome: "Paulo", telefone: "99988888", data: new Date()},
-					{nome: "Gisely", telefone: "888889999", data: new Date()},
-					{nome: "Pedro", telefone: "7777778888", data: new Date()}
-				];
+				$scope.contatos = [];
 
-				$scope.operadoras = [
-					{nome: "OI", codigo: 14, categoria: "celular"},
-					{nome: "VIVO", codigo: 15, categoria: "celular"},
-					{nome: "TIM", codigo: 41, categoria: "celular"},
-					{nome: "GVT", codigo: 49, categoria: "fixo"},
-					{nome: "EMBRATEL", codigo: 21, categoria: "fixo"}
-				]
+				$scope.operadoras = [];
 
 				$scope.classe = "selecionado"
+
+				var carregarContatos = function() {
+					$http.get('http://127.0.0.1:3412/contatos').then(function(response){
+						$scope.contatos = response.data;
+					}, function(err){
+						$scope.message = "Deu Ruim!!!" + err;
+					});
+				}
+
+				var carregarOperadoras = function() {
+					$http.get('http://127.0.0.1:3412/operadoras').then(function(response){
+						$scope.operadoras = response.data;
+					});
+				}
 
 				$scope.adicionarContato = function(contato) {
 					$scope.contatos.push(angular.copy(contato))
@@ -150,6 +156,10 @@
 					$scope.criterioDeOrdenacao = campo;
 					$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
 				}	
+
+				carregarContatos();
+
+				carregarOperadoras();
 
 			})	
 

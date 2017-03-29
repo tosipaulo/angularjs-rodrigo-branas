@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AJAX</title>
+</head>
+<body>
+
+	<h3>AJAX</h3>
+
+	<div id="ajax"></div>
+
+
+	<script>
+		
+		var get = function(url, callback) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === 4) {
+					callback(xhr.response, xhr.status)
+				}
+			}
+
+			xhr.open("GET", url);
+			xhr.send(null);
+		}
+
+
+		get('http://127.0.0.1:3412/contatos', function(data){
+			document.querySelector('#ajax').innerHTML = data;
+		})
+
+
+	</script>
+</body>
+</html>
