@@ -31,7 +31,7 @@
 				<tbody>
 					<tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos | filter:{nome: criterioDeBusca} | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
 						<td><input type="checkbox" ng-model="contato.selecionado"></td>
-						<td>{{contato.nome | uppercase }}</td>
+						<td>{{contato.nome | name | ellipsis }}</td>
 						<td>{{contato.data | date:'dd/MM/yyyy'}}</td>
 						<td>{{contato.telefone}}</td>
 						<td>{{contato.operadora.nome}}</td>
@@ -91,6 +91,8 @@
 	<script src="js/controller/listaTelefonicaController.js"></script>
 	<script src="js/services/contatosAPIFactory.js"></script>
 	<script src="js/services/operadorasAPIFactory.js"></script>
+	<script src="js/filters/nameFilter.js"></script>
+	<script src="js/filters/ellipsisFilter.js"></script>
 	<script src="js/value/config.js"></script>
 </body>
 </html>
