@@ -18,6 +18,8 @@
 
 				contatosAPI.get().then(function(response){
 					$scope.contatos = response.data;
+				}, function(err){
+					$scope.error = "Não foi possivel carregar os dados..."
 				})
 
 			}

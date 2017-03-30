@@ -5,6 +5,7 @@
 	<title>Lista Telefonica</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/ui.css">
 </head>
 <body ng-controller="listaTelefonicaController">
 
@@ -17,7 +18,11 @@
 			<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que deseja pesquisar...">
 			
 			<hr>
-			{{message}}
+			
+			<ui-alert title="Ops, aconteceu um problema!"> {{error}} </ui-alert>
+
+			<ui-alert title="Ops,"> {{error}} </ui-alert>
+
 			<table class="table table-striped" ng-if="contatos.length">
 				<thead>
 					<tr>
@@ -94,5 +99,6 @@
 	<script src="js/filters/nameFilter.js"></script>
 	<script src="js/filters/ellipsisFilter.js"></script>
 	<script src="js/value/config.js"></script>
+	<script src="js/directive/uiAlertDirective.js"></script>
 </body>
 </html>
