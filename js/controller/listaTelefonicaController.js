@@ -4,7 +4,7 @@
 
 	angular
 		.module('listaTelefonica')
-		.controller('listaTelefonicaController', function($scope, $filter, $http){
+		.controller('listaTelefonicaController', function($scope, contatosAPI, operadorasAPI){
 
 			$scope.app = "Lista Telefonica";
 
@@ -15,15 +15,15 @@
 			$scope.classe = "selecionado"
 
 			var carregarContatos = function() {
-				$http.get('http://127.0.0.1:3412/contatos').then(function(response){
+
+				contatosAPI.get().then(function(response){
 					$scope.contatos = response.data;
-				}, function(err){
-					$scope.message = "Deu Ruim!!!" + err;
-				});
+				})
+
 			}
 
 			var carregarOperadoras = function() {
-				$http.get('http://127.0.0.1:3412/operadoras').then(function(response){
+				operadorasAPI.get().then(function(response){
 					$scope.operadoras = response.data;
 				});
 			}
