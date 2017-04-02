@@ -11,15 +11,15 @@
 			$scope.contatos = [];
 
 			$scope.operadoras = [];
-
+ 
 			$scope.classe = "selecionado"
 
 			var carregarContatos = function() {
 
 				contatosAPI.get().then(function(response){
 					$scope.contatos = response.data;
-				}, function(err){
-					$scope.error = "Não foi possivel carregar os dados..."
+				}).catch(function(err){
+					$scope.contatos = err;
 				})
 
 			}
@@ -27,6 +27,8 @@
 			var carregarOperadoras = function() {
 				operadorasAPI.get().then(function(response){
 					$scope.operadoras = response.data;
+				}).catch(function(err){
+					$scope.operadoras = err;
 				});
 			}
 
