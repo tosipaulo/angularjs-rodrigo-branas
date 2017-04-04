@@ -11,6 +11,8 @@
 			$scope.contatos = [];
 
 			$scope.operadoras = [];
+
+			$scope.statusError = false;
  
 			$scope.classe = "selecionado"
 
@@ -19,6 +21,8 @@
 				contatosAPI.get().then(function(response){
 					$scope.contatos = response.data;
 				}).catch(function(err){
+					$scope.statusError = true;
+					$scope.error = "Estou usando mock";
 					$scope.contatos = err;
 				})
 

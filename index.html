@@ -18,10 +18,9 @@
 			<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que deseja pesquisar...">
 			
 			<hr>
-			
-			<!-- <ui-alert title="Ops, aconteceu um problema!"> {{error}} </ui-alert>
-			
-			<ui-alert title="Ops,"> {{error}} </ui-alert> -->
+
+
+			<ui-alert title="Ops, aconteceu um problema!" ng-show="statusError"> {{error}} </ui-alert>
 
 			<table class="table table-striped" ng-if="contatos.length">
 				<thead>
@@ -48,6 +47,7 @@
 
 				<input type="text" class="form-control" ng-model="contato.nome" name="nome" ng-required="true" ng-minlength="10" placeholder="Nome e Sobrenome">
 				<input type="text" class="form-control" ng-model="contato.telefone" name="telefone" ng-required="true" placeholder="Telefone" ng-pattern="/^\d{4,5}-\d{4}$/">
+				<input type="text" class="form-control" ng-model="contato.data" name="data" placeholder="Data" ui-date>
 				<select name="" id="" class="form-control" ng-model="contato.operadora" name="oper" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" >
 					<option value="">Selecione operadora...</option>
 				</select>
@@ -100,5 +100,6 @@
 	<script src="js/filters/ellipsisFilter.js"></script>
 	<script src="js/value/config.js"></script>
 	<script src="js/directive/uiAlertDirective.js"></script>
+	<script src="js/directive/uiDateDirective.js"></script>
 </body>
 </html>
