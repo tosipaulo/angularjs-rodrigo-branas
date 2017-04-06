@@ -10,8 +10,9 @@
 
 	<div id="ajax"></div>
 
-
 	<script>
+
+	 	var cakes = [];
 		
 		var get = function(url, callback) {
 			var xhr = new XMLHttpRequest();
@@ -26,7 +27,12 @@
 		}
 
 
-		get('http://127.0.0.1:3412/contatos', function(data){
+		get('http://melbolos.herokuapp.com/api/cakes/', function(data){
+			
+			cakes = JSON.parse(data).reduce(function(el, prev){
+				return el.tags = prev.tags;
+			})
+			console.log(cakes);
 			document.querySelector('#ajax').innerHTML = data;
 		})
 

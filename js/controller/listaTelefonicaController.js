@@ -17,7 +17,7 @@
 			$scope.classe = "selecionado"
 
 			var carregarContatos = function() {
-
+ 
 				contatosAPI.get().then(function(response){
 					$scope.contatos = response.data;
 				}).catch(function(err){
@@ -44,7 +44,7 @@
 			}
 
 			$scope.apagarContato = function(contatos) {
-				$scope.contatos = contatos.filter(function(contato){
+				$scope.contatos = contatos.filter(function(contato){ 
 					if(!contato.selecionado) return contato;
 				})
 
