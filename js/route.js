@@ -13,10 +13,16 @@
 		$routeProvider
 
 			.when('/contatos', {
-				templateUrl : 'view/contatos.html'
+				templateUrl : 'view/contatos.html',
+				controller: 'listaTelefonicaController'
+			})
+			.when('/novoContato', {
+				templateUrl : 'view/novoContato.html',
+				controller: 'listaTelefonicaController'
 			})
 
-			.otherwise({redirectTo: '/teste'});
+
+			.otherwise({redirectTo: '/contatos'});
 	}
 
 
