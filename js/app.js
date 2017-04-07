@@ -2,5 +2,5 @@
 	'use strict'
 	
 	angular
-			.module('listaTelefonica', ['ngMessages']);
+		.module('listaTelefonica', ['ngRoute', 'ngMessages']);
 })()

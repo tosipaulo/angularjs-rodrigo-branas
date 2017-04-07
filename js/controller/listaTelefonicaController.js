@@ -19,6 +19,7 @@
 			var carregarContatos = function() {
  
 				contatosAPI.get().then(function(response){
+					console.log(response.data.slice(response.data.length - 1));
 					$scope.contatos = response.data;
 				}).catch(function(err){
 					$scope.statusError = true;
